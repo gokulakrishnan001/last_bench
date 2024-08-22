@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "970950622064",
+    "project_id": "last-bench-c6cb6",
+    "storage_bucket": "last-bench-c6cb6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:970950622064:android:7d3922e31d39b194ab2db5",
+        "android_client_info": {
+          "package_name": "com.example.last_bench"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgzBANZezy04eFehqDGC-u7Iump82Zqik"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
