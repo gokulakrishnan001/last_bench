@@ -6,11 +6,11 @@ import 'package:go_router/go_router.dart';
 import 'package:last_bench/routes/routes.dart';
 import 'firebase_options.dart';
 
-void main()async{
+void main() async {
   runApp(const MyApp());
-await Firebase.initializeApp(
+  await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-);
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -19,13 +19,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      //home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      routeInformationParser: AppRoutes.router.routeInformationParser,
+      routerDelegate: AppRoutes.router.routerDelegate,
+      routeInformationProvider: AppRoutes.router.routeInformationProvider,
     );
   }
 }
@@ -49,7 +51,7 @@ class SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      child: Center(child: Image.asset('assets/images/logo.png')),
+      child: Center(child: Text("Last Bench")),
     );
   }
 }

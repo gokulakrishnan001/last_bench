@@ -16,36 +16,29 @@ class AppRoutes {
       },
     ),
     GoRoute(
-      name: AppRouteConstant.splashScreen,
-      path: '/',
-      pageBuilder: (context, state) {
-        return const MaterialPage(child: SplashScreen());
-      },
-    ),
-    GoRoute(
       name: AppRouteConstant.logInPage,
-      path: '/',
+      path: '/login',
       pageBuilder: (context, state) {
         return MaterialPage(child: LoginPage());
       },
     ),
     GoRoute(
       name: AppRouteConstant.signUpPage,
-      path: '/',
+      path: '/signUp',
       pageBuilder: (context, state) {
         return MaterialPage(child: SignUpPage());
       },
     ),
     GoRoute(
       name: AppRouteConstant.Student,
-      path: '/',
+      path: '/student',
       pageBuilder: (context, state) {
         return const MaterialPage(child: StudentPage());
       },
     ),
     GoRoute(
       name: AppRouteConstant.Teacher,
-      path: '/',
+      path: '/teacher',
       pageBuilder: (context, state) {
         return const MaterialPage(child: TeacherPage());
       },
@@ -59,5 +52,4 @@ class AppRouteConstant {
   static const String logInPage = 'LogInPage';
   static const String Student = 'studentHomePage';
   static const String Teacher = 'teacherHomePage';
-  
 }

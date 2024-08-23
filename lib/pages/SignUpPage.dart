@@ -19,11 +19,10 @@ class _SignUpPageState extends State<SignUpPage> {
   final _auth = FirebaseAuth.instance;
 
   final TextEditingController passwordController = new TextEditingController();
-  final TextEditingController confirmpassController =
-      new TextEditingController();
-  final TextEditingController name = new TextEditingController();
-  final TextEditingController emailController = new TextEditingController();
-  final TextEditingController mobile = new TextEditingController();
+  final TextEditingController confirmpassController = TextEditingController();
+  final TextEditingController name = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController mobileController = TextEditingController();
   bool _isObscure = true;
   bool _isObscure2 = true;
   File? file;
@@ -37,12 +36,12 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.orange[900],
+      backgroundColor: Color.fromARGB(255, 240, 246, 247),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Container(
-              color: Colors.orangeAccent[700],
+              color: Color.fromARGB(255, 17, 196, 219),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: SingleChildScrollView(
@@ -66,10 +65,25 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 50,
+                        ),
+                        TextFormField(
+                          controller: name,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Name',
+                            enabled: true,
+                            contentPadding: const EdgeInsets.only(
+                                left: 14.0, bottom: 8.0, top: 8.0),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: new BorderSide(color: Colors.white),
+                              borderRadius: new BorderRadius.circular(20),
+                            ),
+                          ),
                         ),
                         SizedBox(
-                          height: 50,
+                          height: 20,
                         ),
                         TextFormField(
                           controller: emailController,
@@ -97,6 +111,40 @@ class _SignUpPageState extends State<SignUpPage> {
                                     "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
                                 .hasMatch(value)) {
                               return ("Please enter a valid email");
+                            } else {
+                              return null;
+                            }
+                          },
+                          onChanged: (value) {},
+                          keyboardType: TextInputType.emailAddress,
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          controller: mobileController,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Mobile No',
+                            enabled: true,
+                            contentPadding: const EdgeInsets.only(
+                                left: 14.0, bottom: 8.0, top: 8.0),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: new BorderSide(color: Colors.white),
+                              borderRadius: new BorderRadius.circular(20),
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: new BorderSide(color: Colors.white),
+                              borderRadius: new BorderRadius.circular(20),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value!.length == 0) {
+                              return "Mobile cannot be empty";
+                            }
+                            if (!RegExp("^[0-9]").hasMatch(value)) {
+                              return ("Please enter a valid mobile");
                             } else {
                               return null;
                             }
@@ -196,7 +244,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Rool : ",
+                              "Desgniation : ",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -266,11 +314,16 @@ class _SignUpPageState extends State<SignUpPage> {
                                 setState(() {
                                   showProgress = true;
                                 });
-                                signUp(emailController.text,
-                                    passwordController.text, role);
+                                signUp(
+                                  name.text,
+                                  emailController.text,
+                                  passwordController.text,
+                                  role,
+                                  mobileController.text,
+                                );
                               },
                               child: Text(
-                                "Register",
+                                "Signup",
                                 style: TextStyle(
                                   fontSize: 20,
                                 ),
@@ -283,7 +336,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           height: 20,
                         ),
                         Text(
-                          "WEBFUN",
+                          "Last Bench",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 30,
@@ -302,22 +355,33 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  void signUp(String email, String password, String rool) async {
+  void signUp(String name, String email, String password, String designation,
+      String mobile) async {
     if (_formkey.currentState!.validate()) {
       await _auth
           .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) => {postDetailsToFirestore(email, rool)})
+          .then((value) => {
+                postDetailsToFirestore(
+                    name, email, password, designation, mobile)
+              })
           .catchError((e) {
-        return e;
+        print(e.toString());
       });
     }
   }
 
-  postDetailsToFirestore(String email, String rool) async {
+  postDetailsToFirestore(String name, String email, String password,
+      String designation, String mobile) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     var user = _auth.currentUser;
     CollectionReference ref = firebaseFirestore.collection('users');
-    ref.doc(user!.uid).set({'email': emailController.text, 'role': role});
+    ref.doc(user!.uid).set({
+      'name': name,
+      'email': emailController.text,
+      'designation': designation,
+      'mobile': mobile,
+      'password': password
+    });
     GoRouter.of(context).pushNamed(AppRouteConstant.logInPage);
   }
 }

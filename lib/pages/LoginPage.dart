@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:go_router/go_router.dart';
 import 'package:last_bench/routes/routes.dart';
 
-
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -61,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                                 left: 14.0, bottom: 8.0, top: 8.0),
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: Colors.white),
-                              borderRadius:  BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             enabledBorder: UnderlineInputBorder(
                               borderSide: const BorderSide(color: Colors.white),
@@ -108,12 +107,12 @@ class _LoginPageState extends State<LoginPage> {
                             contentPadding: const EdgeInsets.only(
                                 left: 14.0, bottom: 8.0, top: 15.0),
                             focusedBorder: OutlineInputBorder(
-                              borderSide:  BorderSide(color: Colors.white),
-                              borderRadius:  BorderRadius.circular(10),
+                              borderSide: BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.white),
-                              borderRadius:  BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                           ),
                           validator: (value) {
@@ -165,8 +164,8 @@ class _LoginPageState extends State<LoginPage> {
                             maintainState: true,
                             visible: visible,
                             child: const CircularProgressIndicator(
-                                                          color: Colors.white,
-                                                        )),
+                              color: Colors.white,
+                            )),
                       ],
                     ),
                   ),
@@ -257,10 +256,10 @@ class _LoginPageState extends State<LoginPage> {
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        if (documentSnapshot.get('role') == "Teacher") {
+        if (documentSnapshot.get('designation') == "Teacher") {
           GoRouter.of(context).pushNamed(AppRouteConstant.Teacher);
         }
-        if (documentSnapshot.get('role') == "Student") {
+        if (documentSnapshot.get('designation') == "Student") {
           GoRouter.of(context).pushNamed(AppRouteConstant.Student);
         } else {}
       } else {
@@ -279,6 +278,7 @@ class _LoginPageState extends State<LoginPage> {
         );
         route();
       } on FirebaseAuthException catch (e) {
+        print(e.message);
         if (e.code == 'user-not-found') {
           print('No user found for that email.');
         } else if (e.code == 'wrong-password') {
